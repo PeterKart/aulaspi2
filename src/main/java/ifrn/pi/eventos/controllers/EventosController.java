@@ -17,38 +17,38 @@ import ifrn.pi.eventos.repositories.EventoRepository;
 @Controller
 @RequestMapping("/eventos")
 public class EventosController {
-	
+
 	@Autowired
 	private EventoRepository er;
-	
+
 	@GetMapping("/form")
 	public String form() {
 		return "eventos/formEvento";
 	}
-	
+
 	@PostMapping
 	public String adicionar(Evento evento) {
-		
+
 		System.out.println(evento);
 		er.save(evento);
-		
+
 		return "eventos/evento-adicionado";
 	}
-	
+
 	@GetMapping
 	public ModelAndView listar() {
-		
+
 		List<Evento> eventos = er.findAll();
 		ModelAndView mv = new ModelAndView("eventos/lista");
 		mv.addObject("eventos", eventos);
 		return mv;
 	}
-	
+
 	@GetMapping("/{id}")
 	public ModelAndView detalhar(@PathVariable Long id) {
 		ModelAndView md = new ModelAndView();
 		Optional<Evento> opt = er.findById(id);
-		if(opt.isEmpty()) {
+		if (opt.isEmpty()) {
 			md.setViewName("redirect:/eventos");
 			return md;
 		}
