@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 	<meta charset="UTF-8">
@@ -14,7 +15,6 @@
 	<div class="container">
 
 		<h1>Detalhes do Evento</h1>
-
 		<div class="row">
 			<div class="col s12">
 				<div class="card">
@@ -29,17 +29,20 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
+	<div class="row">
 			<div class="col s12">
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title">Adicionar Convidado</span>
-						<form action="" method="post">
+						<form th:action="@{/eventos/{idEvento}(idEvento=${evento.id})}" method="post">
 							<div>
-								<label>Nome: </label> <input type="text" name="nome">
+								<input type="hidden" name="id" th:value="${convidado.id}" readonly="readonly">
 							</div>
 							<div>
-								<label>RG: </label> <input type="text" name="rg">
+								<label>Nome: </label> <input type="text" name="nome" th:value="${convidado.nome}">
+							</div>
+							<div>
+								<label>RG: </label> <input type="text" name="rg" th:value="${convidado.rg}">
 							</div>
 							<div>
 								<button type="submit" class="btn">Salvar</button>
@@ -60,13 +63,17 @@
 									<th>Id</th>
 									<th>Nome</th>
 									<th>Rg</th>
+									<th></th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="c : ${convidados}">
 										<td th:text="${c.id}"></td>
 										<td th:text="${c.nome}"></td>
-										<td th:text="${c.rg}"></td>
+										<td th:text="${c.rg}"></td>											
+										<td>
+											<a th:href="@{/eventos/{idEvento}/convidados/{idConvidado}/selecionar(idEvento=${evento.id}, idConvidado=${c.id})}"><i class="material-icons">edit</i></a>
+											<a th:href="@{/eventos/{idEvento}/convidados/{idConvidado}/apagar(idEvento=${evento.id}, idConvidado=${c.id})}"><i class="material-icons">delete</i></td>
 									</tr>
 								</tbody>
 							</table>
@@ -77,10 +84,9 @@
 			</div>
 		</div>
 
+	</div>
 
-	</div>
-	</div>
-	</form>
+	
 </body>
 
 </html>
